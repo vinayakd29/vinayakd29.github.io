@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vinayak Durgule — SOC L1 Analyst</title>
+<meta name="description" content="Vinayak Durgule — Cybersecurity SOC L1 Analyst. Portfolio: incident response, SIEM monitoring, phishing analysis, DLP, EDR.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0B1220;
+    --bg-panel:#111B2E;
+    --bg-panel-2:#0E1730;
+    --bg-raised:#16233B;
+    --text:#E7ECF3;
+    --text-dim:#8B98AC;
+    --text-faint:#5B6A85;
+    --amber:#F2A93B;
+    --cyan:#49C5B6;
+    --red:#E5484D;
+    --border:#223049;
+    --border-soft:#1A2740;
+    --radius:3px;
+    --mono:'IBM Plex Mono', ui-monospace, monospace;
+    --sans:'IBM Plex Sans', system-ui, sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;}
+  .wrap{max-width:1080px; margin:0 auto; padding:0 28px;}
+
+  ::selection{background:var(--amber); color:#0B1220;}
+
+  /* subtle grid texture */
+  .grid-bg{
+    position:fixed; inset:0; z-index:-1; opacity:.5;
+    background-image:
+      linear-gradient(var(--border-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border-soft) 1px, transparent 1px);
+    background-size:42px 42px;
+    -webkit-mask-image:radial-gradient(ellipse 70% 55% at 50% 0%, black 0%, transparent 75%);
+    mask-image:radial-gradient(ellipse 70% 55% at 50% 0%, black 0%, transparent 75%);
+  }
+
+  /* ---------- NAV ---------- */
+  header.nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(11,18,32,0.86);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--border);
+  }
+  .nav-inner{
+    display:flex; align-items:center; justify-content:space-between;
+    height:56px; max-width:1080px; margin:0 auto; padding:0 28px;
+  }
+  .nav-id{
+    font-family:var(--mono); font-size:13px; color:var(--text-dim);
+    display:flex; align-items:center; gap:8px;
+  }
+  .dot{width:7px; height:7px; border-radius:50%; background:var(--cyan); box-shadow:0 0 0 3px rgba(73,197,182,0.15); animation:pulse 2.2s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{opacity:1;} 50%{opacity:.4;}}
+  .nav-links{display:flex; gap:26px; font-family:var(--mono); font-size:12.5px; letter-spacing:.03em;}
+  .nav-links a{color:var(--text-dim); text-decoration:none; transition:color .15s;}
+  .nav-links a:hover{color:var(--amber);}
+  @media (max-width:640px){ .nav-links{display:none;} }
+
+  /* ---------- HERO ---------- */
+  .hero{padding:76px 0 46px;}
+  .eyebrow{
+    font-family:var(--mono); font-size:12.5px; color:var(--amber);
+    letter-spacing:.08em; text-transform:uppercase;
+    display:flex; align-items:center; gap:10px; margin-bottom:22px;
+  }
+  .eyebrow::before{content:''; width:22px; height:1px; background:var(--amber);}
+  h1.name{
+    font-size:clamp(42px, 7vw, 74px);
+    font-weight:700; letter-spacing:-0.02em; line-height:1.02;
+    color:var(--text);
+  }
+  .role-line{
+    font-family:var(--mono); font-size:clamp(15px,2vw,19px);
+    color:var(--cyan); margin-top:16px; letter-spacing:.01em;
+  }
+  .hero-flex{display:flex; gap:44px; align-items:flex-start; margin-top:34px; flex-wrap:wrap;}
+  .hero-photo{
+    width:104px; height:104px; border-radius:6px; object-fit:cover;
+    border:1px solid var(--border); filter:grayscale(30%) contrast(1.05);
+    flex-shrink:0;
+  }
+  .summary{max-width:560px; color:var(--text-dim); font-size:15.5px;}
+  .contact-row{
+    display:flex; gap:18px; flex-wrap:wrap; margin-top:22px;
+    font-family:var(--mono); font-size:13px;
+  }
+  .contact-row a{
+    color:var(--text); text-decoration:none; padding:8px 14px;
+    border:1px solid var(--border); border-radius:var(--radius);
+    background:var(--bg-panel); transition:border-color .15s, color .15s;
+  }
+  .contact-row a:hover{border-color:var(--amber); color:var(--amber);}
+
+  /* console ticker */
+  .console{
+    margin-top:40px; background:var(--bg-panel); border:1px solid var(--border);
+    border-radius:6px; overflow:hidden;
+  }
+  .console-bar{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:9px 14px; border-bottom:1px solid var(--border);
+    font-family:var(--mono); font-size:11.5px; color:var(--text-faint);
+  }
+  .console-bar .lights{display:flex; gap:6px;}
+  .console-bar .lights span{width:8px; height:8px; border-radius:50%; background:var(--border-soft);}
+  .console-body{
+    height:132px; overflow:hidden; position:relative;
+    -webkit-mask-image:linear-gradient(to bottom, transparent, black 12%, black 88%, transparent);
+    mask-image:linear-gradient(to bottom, transparent, black 12%, black 88%, transparent);
+  }
+  .console-scroll{
+    animation:scrollUp 16s linear infinite;
+  }
+  @keyframes scrollUp{
+    0%{transform:translateY(0);}
+    100%{transform:translateY(-50%);}
+  }
+  .log-line{
+    font-family:var(--mono); font-size:12.5px; padding:6px 14px;
+    display:flex; gap:10px; color:var(--text-dim); white-space:nowrap;
+  }
+  .log-line .ts{color:var(--text-faint);}
+  .log-line .sev{font-weight:600;}
+  .sev-p1{color:var(--red);}
+  .sev-p2{color:var(--amber);}
+  .sev-p3{color:var(--cyan);}
+  @media (prefers-reduced-motion: reduce){ .console-scroll{animation:none;} .dot{animation:none;} }
+
+  /* ---------- SECTION SHELL ---------- */
+  section{padding:70px 0;}
+  .sec-head{display:flex; align-items:baseline; gap:14px; margin-bottom:34px;}
+  .sec-tag{font-family:var(--mono); font-size:12px; color:var(--text-faint);}
+  h2.sec-title{
+    font-size:26px; font-weight:600; letter-spacing:-0.01em;
+  }
+  .rule{height:1px; background:var(--border); flex:1;}
+
+  /* ---------- TICKET QUEUE (experience) ---------- */
+  .queue-meta{
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;
+    font-family:var(--mono); font-size:12.5px; color:var(--text-dim); margin-bottom:18px;
+  }
+  .queue-meta .status{color:var(--cyan); display:flex; align-items:center; gap:7px;}
+  .role-block{
+    border:1px solid var(--border); border-radius:6px; background:var(--bg-panel-2); margin-bottom:22px; overflow:hidden;
+  }
+  .role-head{padding:18px 20px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; align-items:center;}
+  .role-head h3{font-size:17px; font-weight:600;}
+  .role-head .role-sub{font-family:var(--mono); font-size:12.5px; color:var(--text-dim); margin-top:3px;}
+  .role-head .badge{
+    font-family:var(--mono); font-size:11px; color:#0B1220; background:var(--cyan);
+    padding:4px 9px; border-radius:3px; font-weight:600; letter-spacing:.03em; height:fit-content;
+  }
+
+  .ticket{
+    display:grid; grid-template-columns:78px 92px 130px 1fr; gap:16px; align-items:start;
+    padding:13px 20px; border-bottom:1px solid var(--border-soft);
+    font-size:13.5px;
+  }
+  .ticket:last-child{border-bottom:none;}
+  .ticket:hover{background:var(--bg-raised);}
+  .ticket .id{font-family:var(--mono); font-size:12px; color:var(--text-faint);}
+  .ticket .sev{font-family:var(--mono); font-size:11.5px; font-weight:700; letter-spacing:.03em;}
+  .ticket .cat{
+    font-family:var(--mono); font-size:11px; color:var(--text-dim);
+    border:1px solid var(--border); border-radius:3px; padding:3px 7px; width:fit-content;
+  }
+  .ticket .desc{color:var(--text-dim);}
+  .ticket .desc b{color:var(--text); font-weight:500;}
+  @media (max-width:720px){
+    .ticket{grid-template-columns:1fr; gap:6px;}
+    .ticket .id{order:1;}
+    .ticket .sev{order:2;}
+    .ticket .cat{order:3;}
+    .ticket .desc{order:4;}
+  }
+
+  /* ---------- SKILLS / ASSET INVENTORY ---------- */
+  .inv-grid{display:grid; grid-template-columns:repeat(2, 1fr); gap:16px;}
+  @media (max-width:720px){ .inv-grid{grid-template-columns:1fr;} }
+  .inv-card{
+    border:1px solid var(--border); border-radius:6px; background:var(--bg-panel-2); padding:18px 20px;
+  }
+  .inv-card .inv-label{
+    font-family:var(--mono); font-size:11px; color:var(--amber); letter-spacing:.06em;
+    text-transform:uppercase; margin-bottom:12px; display:flex; align-items:center; gap:8px;
+  }
+  .inv-card .inv-label::before{content:'▹';}
+  .chips{display:flex; flex-wrap:wrap; gap:8px;}
+  .chip{
+    font-family:var(--mono); font-size:12px; color:var(--text);
+    background:var(--bg-raised); border:1px solid var(--border); border-radius:3px; padding:5px 10px;
+  }
+
+  /* ---------- EDUCATION ---------- */
+  .edu-row{
+    display:flex; justify-content:space-between; align-items:baseline; gap:12px;
+    padding:16px 0; border-bottom:1px solid var(--border-soft); flex-wrap:wrap;
+  }
+  .edu-row:last-child{border-bottom:none;}
+  .edu-row .school{font-weight:600; font-size:15px;}
+  .edu-row .degree{color:var(--text-dim); font-size:13.5px; margin-top:2px;}
+  .edu-row .score{font-family:var(--mono); font-size:13px; color:var(--cyan); white-space:nowrap;}
+
+  /* ---------- CONTACT / FOOTER ---------- */
+  .contact-panel{
+    border:1px solid var(--border); border-radius:6px; background:var(--bg-panel-2);
+    padding:44px 40px; text-align:left;
+  }
+  .contact-panel h2{font-size:26px; font-weight:600; margin-bottom:10px;}
+  .contact-panel p{color:var(--text-dim); max-width:480px; margin-bottom:26px;}
+  .contact-actions{display:flex; gap:14px; flex-wrap:wrap;}
+  .btn{
+    font-family:var(--mono); font-size:13px; text-decoration:none; padding:11px 18px;
+    border-radius:4px; font-weight:600; letter-spacing:.01em;
+  }
+  .btn-primary{background:var(--amber); color:#0B1220;}
+  .btn-primary:hover{background:#ffbf5c;}
+  .btn-ghost{border:1px solid var(--border); color:var(--text);}
+  .btn-ghost:hover{border-color:var(--cyan); color:var(--cyan);}
+
+  footer{padding:36px 0 60px; font-family:var(--mono); font-size:12px; color:var(--text-faint); display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;}
+
+  ::-webkit-scrollbar{width:10px;}
+  ::-webkit-scrollbar-track{background:var(--bg);}
+  ::-webkit-scrollbar-thumb{background:var(--border); border-radius:5px;}
+
+  a:focus-visible, .ticket:focus-visible{outline:2px solid var(--amber); outline-offset:2px;}
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<header class="nav">
+  <div class="nav-inner">
+    <div class="nav-id"><span class="dot"></span>VD // SOC-L1 // STATUS: ACTIVE</div>
+    <nav class="nav-links">
+      <a href="#experience">EXPERIENCE</a>
+      <a href="#skills">SKILLS</a>
+      <a href="#education">EDUCATION</a>
+      <a href="#contact">CONTACT</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <section class="hero">
+      <div class="eyebrow">Cybersecurity Portfolio</div>
+      <h1 class="name">Vinayak Durgule</h1>
+      <div class="role-line">// SOC Analyst (L1) — Threat Detection, Triage &amp; Incident Response</div>
+
+      <div class="hero-flex">
+        <img class="hero-photo" src="data:image/jpeg;base64,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" alt="Portrait of Vinayak Durgule">
+        <div>
+          <p class="summary">SOC Analyst (L1) with 2+ years in 24/7 Security Operations Center environments — real-time monitoring, SIEM analysis, vulnerability management, and incident escalation. Hands-on across log analysis, malware analysis, endpoint security, and network security monitoring, working within the MITRE ATT&amp;CK framework to reduce organizational risk.</p>
+          <div class="contact-row">
+            <a href="mailto:vinayakdurgule0029@gmail.com">✉ vinayakdurgule0029@gmail.com</a>
+            <a href="tel:+917058070029">☎ +91 70580 70029</a>
+            <a href="#" id="linkedin-slot">🔗 LinkedIn — add your link</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="console">
+        <div class="console-bar">
+          <span>alert_feed.log — tail -f</span>
+          <span class="lights"><span></span><span></span><span></span></span>
+        </div>
+        <div class="console-body">
+          <div class="console-scroll" id="ticker"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience">
+      <div class="sec-head">
+        <span class="sec-tag">01</span>
+        <h2 class="sec-title">Experience</h2>
+        <div class="rule"></div>
+      </div>
+
+      <div class="queue-meta">
+        <span>queue: soc-l1-caseload · 14 records</span>
+        <span class="status"><span class="dot" style="animation:none;"></span>all cases resolved</span>
+      </div>
+
+      <div class="role-block">
+        <div class="role-head">
+          <div>
+            <h3>Cybersecurity Graduate Trainee — SOC L1</h3>
+            <div class="role-sub">Tata Consultancy Services (TCS) · May 2024 – Present</div>
+          </div>
+          <span class="badge">CURRENT ROLE</span>
+        </div>
+
+        <div id="ticket-list"></div>
+      </div>
+    </section>
+
+    <section id="skills">
+      <div class="sec-head">
+        <span class="sec-tag">02</span>
+        <h2 class="sec-title">Asset Inventory — Tools &amp; Skills</h2>
+        <div class="rule"></div>
+      </div>
+      <div class="inv-grid" id="inv-grid"></div>
+    </section>
+
+    <section id="education">
+      <div class="sec-head">
+        <span class="sec-tag">03</span>
+        <h2 class="sec-title">Education</h2>
+        <div class="rule"></div>
+      </div>
+      <div>
+        <div class="edu-row">
+          <div><div class="school">Sanjay Ghodawat University</div><div class="degree">B.Tech, Computer Science &amp; Engineering</div></div>
+          <div class="score">CGPA 7.69</div>
+        </div>
+        <div class="edu-row">
+          <div><div class="school">Sou. S.M. Lohia Jr. College</div><div class="degree">HSC — Science</div></div>
+          <div class="score">72.67%</div>
+        </div>
+        <div class="edu-row">
+          <div><div class="school">Sou. S.M. Lohia High School</div><div class="degree">SSC</div></div>
+          <div class="score">91.60%</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="contact-panel">
+        <h2>Let's talk security.</h2>
+        <p>Open to SOC Analyst, Threat Detection, and Incident Response roles. Reach out directly — I usually respond within a day.</p>
+        <div class="contact-actions">
+          <a class="btn btn-primary" href="mailto:vinayakdurgule0029@gmail.com">Email me</a>
+          <a class="btn btn-ghost" href="tel:+917058070029">Call +91 70580 70029</a>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="wrap">
+    <footer>
+      <span>© 2026 Vinayak Durgule</span>
+      <span>Built for recruiters &amp; hiring managers · last updated July 2026</span>
+    </footer>
+  </div>
+</main>
+
+<script>
+  const tickets = [
+    {sev:"P2", cat:"SIEM MONITORING", desc:"Monitored and analyzed real-time security alerts in a 24x7 SOC using <b>Splunk</b> and <b>Microsoft Defender for Endpoint</b>."},
+    {sev:"P2", cat:"NETWORK", desc:"Performed log analysis across firewalls, IDS/IPS, web proxies, and endpoint tools to detect suspicious activity."},
+    {sev:"P1", cat:"INCIDENT RESPONSE", desc:"Investigated security incidents, conducted root cause analysis (RCA), and escalated threats within SLA timelines."},
+    {sev:"P2", cat:"TRIAGE", desc:"Performed alert triage, incident validation, and escalation based on severity and organizational policy."},
+    {sev:"P1", cat:"ENDPOINT / EDR", desc:"Analyzed EDR alerts for malware activity, lateral movement, and persistence using Microsoft Defender."},
+    {sev:"P2", cat:"PHISHING", desc:"Conducted phishing investigations — email header analysis, malicious attachment detonation, URL/IOC analysis."},
+    {sev:"P2", cat:"EMAIL SECURITY", desc:"Investigated email-borne threats via <b>Mimecast</b>, identifying spoofing, spam, and malicious payload attempts."},
+    {sev:"P3", cat:"DLP", desc:"Monitored and analyzed Data Loss Prevention alerts via <b>Zscaler</b> to flag potential sensitive data leakage."},
+    {sev:"P3", cat:"TICKETING", desc:"Managed incident tickets in <b>ServiceNow</b>, ensuring tracking, follow-up, and closure with relevant teams."},
+    {sev:"P3", cat:"REPORTING", desc:"Prepared daily, weekly, and monthly security reports summarizing alert trends and incident status."},
+    {sev:"P2", cat:"AUTOMATION / SOAR", desc:"Executed automated IR playbooks in <b>FortiSOAR</b> to speed up enrichment, containment, and case closure."},
+    {sev:"P2", cat:"THREAT INTEL", desc:"Performed IOC validation using threat intelligence sources for faster, more accurate incident classification."},
+    {sev:"P3", cat:"VULN MANAGEMENT", desc:"Tracked identified vulnerabilities through remediation, coordinating patch follow-up with IT teams."},
+    {sev:"P3", cat:"COLLABORATION", desc:"Collaborated with cross-functional and senior teams during escalation, remediation, and closure."}
+  ];
+
+  const list = document.getElementById('ticket-list');
+  tickets.forEach((t, i) => {
+    const row = document.createElement('div');
+    row.className = 'ticket';
+    row.tabIndex = 0;
+    row.innerHTML = `
+      <span class="id">INC-${String(i+1).padStart(4,'0')}</span>
+      <span class="sev sev-${t.sev.toLowerCase()}">${t.sev}</span>
+      <span class="cat">${t.cat}</span>
+      <span class="desc">${t.desc}</span>`;
+    list.appendChild(row);
+  });
+
+  // hero ticker — build from same data, duplicated for seamless loop
+  const tickerLines = tickets.map((t,i) => ({...t, id:i+1}));
+  const ticker = document.getElementById('ticker');
+  function buildTicker(){
+    let html = '';
+    [...tickerLines, ...tickerLines].forEach(t => {
+      html += `<div class="log-line"><span class="ts">[INC-${String(t.id).padStart(4,'0')}]</span><span class="sev sev-${t.sev.toLowerCase()}">${t.sev}</span><span>${t.cat} — ${t.desc.replace(/<\/?b>/g,'')}</span></div>`;
+    });
+    ticker.innerHTML = html;
+  }
+  buildTicker();
+
+  // asset inventory
+  const inventory = [
+    {label:"SIEM & Log Analysis", items:["Splunk"]},
+    {label:"Endpoint Security (EDR)", items:["Microsoft Defender for Endpoint"]},
+    {label:"Data Loss Prevention", items:["Zscaler"]},
+    {label:"Email Security & Phishing", items:["Mimecast"]},
+    {label:"Network Security Devices", items:["Firewall","IDS/IPS","Proxy","WAF"]},
+    {label:"Ticketing", items:["ServiceNow"]},
+    {label:"Frameworks", items:["MITRE ATT&CK"]},
+    {label:"SOAR", items:["FortiSOAR"]},
+    {label:"Incident Response", items:["Alert Triage","Incident Investigation","Malware/Phishing Analysis","Root Cause Analysis","SLA-Based Response"]}
+  ];
+  const grid = document.getElementById('inv-grid');
+  inventory.forEach(cat => {
+    const card = document.createElement('div');
+    card.className = 'inv-card';
+    card.innerHTML = `<div class="inv-label">${cat.label}</div><div class="chips">${cat.items.map(i=>`<span class="chip">${i}</span>`).join('')}</div>`;
+    grid.appendChild(card);
+  });
+</script>
+</body>
+</html>
